@@ -14,7 +14,7 @@ clubs =  chr(9827) # Символ 9827 это '♣'.
 backside = "backside"
 
 
-def main()
+def main():
     pass
 
 
