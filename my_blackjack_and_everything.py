@@ -46,7 +46,7 @@ def main():
         playerHand = [deck.pop(), deck.pop()]
 
         # Организуем действия игрока:
-        print(f"Ставка: , ${bet}")
+        print(f"Ставка: ${bet}")
         while True:  # Продолжаем цикл, пока игрок не перестанет брать карты или не произойдет перебор по очкам
             displayHands(playerHand, dealerHand, False)
             print()
@@ -61,7 +61,7 @@ def main():
                 # Игрок может повысить ставку
                 additionalBet = getBet(min(bet, (money - bet)))
                 bet += additionalBet
-                print(f"Ваша ставка возрасла на: ${additionalBet}")
+                print(f"Ваша ставка возрасла на ${additionalBet}")
                 print(f"Итоговая ставка: ${bet}")
 
             if move in ("H", "D"):  # "Ещё" или "Повысить ставки" - игроку дается ещё одна карта
@@ -93,15 +93,20 @@ def main():
         playerValue = getHandValue(playerHand)
         dealerValue = getHandValue(dealerHand)
 
-        # Разберемся, игрок победил, проиграл или же случилась ничья
+            # Разберемся, игрок победил, проиграл или же случилась ничья
         if dealerValue > 21:
-            print(f"Дилер проиграл! Вы выиграли {bet}")
+            print(f"Дилер перебрал очков! Вы выиграли {bet}")
             money += bet
             print(f"Теперь у Вас на счету: ${money}")
         elif (playerValue > 21) or (playerValue < dealerValue):
             print("Ваша ставка проиграла!")
             money -= bet
             print(f"Теперь у Вас на счету: ${money}")
+        elif playerValue > dealerValue:
+            print(f"У Дилера меньше очков, чем у Вас! Вы выиграли {bet}")
+            money += bet
+            print(f"Теперь у Вас на счету: ${money}")
+
         elif playerValue == dealerValue:
             print("Ничья! Ваша ставка возвращается к Вам")
         input("Нажмите ENTER, чтобы продолжить... ")
@@ -113,7 +118,7 @@ def getBet(maxBet):
     while True: # Продолжаем спрашивать, пока пользователь не введет валидное число
         print(f"Какова ваша ставка? (1 - {maxBet}, Q - для выхода)")
         bet = input("> ").upper().strip()
-        if bet == "Q".lower():
+        if bet == "Q" or bet == "q":
             print("Спасибо за игру!")
             sys.exit()
         if not bet.isdecimal(): # Если пользователь не ввел число, спросим снова
@@ -204,12 +209,12 @@ def getMove(playerHand, money):
         if len(playerHand) == 2 and money > 0:
             moves.append("(D)ouble down")
             # Побуждаем игрока сходить
-            movePrompt = ", ".join(moves) + "> "
-            move = input(movePrompt).upper()
-            if move in ("H", "S"):
-                return move
-            if move == ("D") and "(D)ouble down" in moves:
-                return move
+        movePrompt = ", ".join(moves) + "> "
+        move = input(movePrompt).upper()
+        if move in ("H", "S"):
+            return move
+        if move == ("D") and "(D)ouble down" in moves:
+            return move
 
 
 if __name__ == "__main__":
