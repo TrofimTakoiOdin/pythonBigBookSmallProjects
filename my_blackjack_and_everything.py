@@ -189,10 +189,10 @@ def displayHands(playerHand, dealerHand, showDealerHand):
     '''Показываем карты игрока и крупье. Прячем первую карту крупье, если showDealerHand - False'''
     print()
     if showDealerHand:
-        print("КРУПЬЕ: ", getHandValue(dealerHand))
+        print("Дилер: ", getHandValue(dealerHand))
         displayCards(dealerHand)
     else:
-        print("Крупье: ???")
+        print("Дилер: ???")
         # Прячем первую крту крупье
         displayCards([BACKSIDE] + dealerHand[1:])
     # Показываем карты игрока
