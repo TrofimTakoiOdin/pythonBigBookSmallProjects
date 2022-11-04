@@ -2,7 +2,20 @@ import random, time
 BAR = chr(9608)
 
 def main():
-    pass
+    print("Симуляция шкалы загрузки")
+    bytesDownloaded = 0
+    downloadSize = 4096
+    while bytesDownloaded < downloadSize:
+        bytesDownloaded += random.randint(0, 100)
+
+        barStr = getProgressBar(bytesDownloaded, downloadSize)
+
+        print(barStr, end="", flush=True)
+
+        time.sleep(0.3)
+
+        print("\b" * len(barStr), end="", flush=True)
+    print(barStr)
 
 
 def getProgressBar(progress, total, barWidth=40):
@@ -26,3 +39,7 @@ def getProgressBar(progress, total, barWidth=40):
     progressBar += " " + str(progress) + "/" + str(total)
 
     return progressBar
+
+
+if __name__ == "__main__":
+    main()
